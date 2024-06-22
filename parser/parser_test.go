@@ -18,6 +18,8 @@ func TestLetStatements(t *testing.T) {
 	p := New(l)
 
 	program := p.ParseProgram()
+	// check for parser/syntax errors
+	checkParserErrors(t, p)
 
 	if program == nil {
 		t.Fatal("ParseProgram() returned nil")
@@ -63,4 +65,21 @@ func testLetStatement(t *testing.T, stmt ast.Statement, name string) bool {
 		return false
 	}
 	return true
+}
+
+// Check if any syntax errors have occured during parsing and print them
+func checkParserErrors(t *testing.T, p *Parser) {
+	errors := p.Errors()
+
+	if len(errors) == 0 {
+		return
+	}
+
+	t.Errorf("parser had %d errors", len(errors))
+
+	for _, msg := range errors {
+		t.Errorf("parser error: %q", msg)
+	}
+
+	t.FailNow()
 }
