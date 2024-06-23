@@ -12,11 +12,12 @@ import (
 const (
 	_ int = iota
 	LOWEST
-	EQUALS  // == LESSGREATER // > or <
-	SUM     //+
-	PRODUCT //*
-	PREFIX  //-Xor!X
-	CALL    // myFunction(X)
+	EQUALS      // ==
+	LESSGREATER // > or <
+	SUM         //+
+	PRODUCT     //*
+	PREFIX      //-Xor!X
+	CALL        // myFunction(X)
 )
 
 type Parser struct {
