@@ -159,3 +159,35 @@ func testNullObject(t *testing.T, obj object.Object) bool {
 	}
 	return true
 }
+
+func TestReturnStatements(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected interface{}
+	}{
+		{"return 10", 10},
+		{"return 10; 9;", 10},
+		{"return 2 * 5; 9;", 10},
+		{"return true; 10;", true},
+		{"return false; return true", false},
+		{
+			`if (10 > 1) {
+				if (10 > 1) {
+					return 10;
+				}
+				return 1;
+			}`,
+			10,
+		},
+	}
+
+	for _, tt := range tests {
+		evaluted := testEval(tt.input)
+		switch evaluted.(type) {
+		case *object.Integer:
+			testIntegerObject(t, evaluted, int64(tt.expected.(int)))
+		case *object.Boolean:
+			testBooleanObject(t, evaluted, tt.expected.(bool))
+		}
+	}
+}
